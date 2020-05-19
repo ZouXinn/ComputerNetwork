@@ -1,0 +1,9 @@
+用两个服务器，开到不同的端口，模拟一个服务器集群的双站点，数据库中ID和权限的表甚至可以加上服务器编号作为一个字段
+
+登录按钮有2个，一个是登录站点1，一个是登录站点2
+
+请求服务时，也使用两个按钮，一个是向站点1请求服务，一个是向站点2请求服务
+
+
+报错
+Warning:Kotlin: Classpath entry points to a non-existent location: C:\Users\zouxin\.m2\repository\io\jsonwebtoken\jjwt\0.9.0\jjwt-0.9.0.jar
