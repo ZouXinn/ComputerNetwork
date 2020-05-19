@@ -26,7 +26,7 @@ class MyHomePage extends StatefulWidget{
 }
 
 class _MyHomePage extends State<MyHomePage>{
-  int currentIndex = 1;
+  int currentIndex = 0;
   List<StatefulWidget> pageList = [
     LoginPage(),
     ServicePage()

@@ -1,6 +1,7 @@
 package com.server;
 
 import com.server.ignite.IgniteHandler;
+import com.server.utils.jwt.JwtTool;
 import org.apache.ignite.Ignite;
 import org.apache.ignite.IgniteCache;
 import org.apache.ignite.Ignition;
@@ -12,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import com.server.utils.jwt.*;
 
 @SpringBootTest
 class ServerApplicationTests {
@@ -92,4 +94,15 @@ class ServerApplicationTests {
         }
     }
 
+    @Test
+    void testJwt(){
+        String id = "zhangsan";
+        String token = JwtTool.createJwt(id);
+        System.out.println(token);
+
+        JwtVerifyResult result = JwtTool.verifyJwt(token);
+        System.out.println("是否成功:"+result.isValid());
+        System.out.println("失败原因:"+result.getInValidReason());
+        System.out.println("用户ID:"+result.getUserId());
+    }
 }

@@ -47,26 +47,22 @@ public class IgniteHandler {
     }
 
     // 传入账号密码，验证用户账号密码是否正确
-    public boolean checkPswd(String id,String pswd) {
-
-
-
-        return true;
+    public static boolean checkPswd(String id,String pswd) {
+        return id.equals("zhangsan") && pswd.equals("123456");
+        //return true;
     }
 
     // 验证用户是否有使用服务service的权限
-    public boolean hasAuth(String id,String service){
-        ArrayList<String> list = getAuthServiceList(id);
+    public static boolean hasAuth(String id,long service){
+        ArrayList<Long> list = getAuthServiceList(id);
         return list.contains(service);
     }
 
     // 获取用户有权限使用的服务的列表
-    public ArrayList<String> getAuthServiceList(String id){
-
-
-
-
-        ArrayList<String> list = new ArrayList<String>();
+    public static ArrayList<Long> getAuthServiceList(String id){
+        ArrayList<Long> list = new ArrayList<Long>();
+        list.add(1L);
+        list.add(2L);
         return list;
     }
 }
