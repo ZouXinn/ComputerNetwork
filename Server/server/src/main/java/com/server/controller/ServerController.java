@@ -43,7 +43,7 @@ public class ServerController {
     }
 
     /*
-        用户请求服务，传入的是json文件，
+        用户请求服务，传入参数和JWT，
         如果用户有该服务的权限，则返回服务调用结果，否则拒绝服务
      */
     @RequestMapping("/service")
