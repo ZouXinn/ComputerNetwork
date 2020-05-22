@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" id="igniteDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+        <property name="url" value="jdbc:mysql://localhost:3306/computer-network"></property>
+        <property name="username" value="root"></property>
+        <property name="password" value="root"></property>
+    </bean>
+    <bean class="org.apache.ignite.configuration.IgniteConfiguration" id="ignite.cfg">
+        <property name="cacheConfiguration">
+            <list>
+                <!-- 用户账号密码 -->
+                <bean class="org.apache.ignite.configuration.CacheConfiguration">
+                    <property name="name" value="usersCache"></property>
+                    <property name="readThrough" value="true"></property>
+                    <property name="writeThrough" value="true"></property>
+                    <!-- Set cacheStoreFactory-->
+                    <property name="cacheStoreFactory">
+                        <bean class="javax.cache.configuration.FactoryBuilder" factory-method="factoryOf">
+                            <constructor-arg value="com.server.ignite.store.UserStore"></constructor-arg>
+                        </bean>
+                    </property>
+                    <property name="queryEntities">
+                        <list>
+                            <bean class="org.apache.ignite.cache.QueryEntity">
+                                <property name="keyType" value="java.lang.String"></property>
+                                <property name="valueType" value="com.server.ignite.model.User"></property>
+                                <property name="fields">
+                                    <map>
+                                        <entry key="id" value="java.lang.String"></entry>
+                                        <entry key="password" value="java.lang.String"></entry>
+                                    </map>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+                <!-- 用户权限 -->
+<!--                <bean class="org.apache.ignite.configuration.CacheConfiguration">-->
+<!--                    <property name="name" value="userAuthCache"></property>-->
+<!--                    <property name="readThrough" value="true"></property>-->
+<!--                    <property name="writeThrough" value="true"></property>-->
+<!--                    &lt;!&ndash; Set cacheStoreFactory&ndash;&gt;-->
+<!--                    <property name="cacheStoreFactory">-->
+<!--                        <bean class="javax.cache.configuration.FactoryBuilder" factory-method="factoryOf">-->
+<!--                            <constructor-arg value="com.server.ignite.store.UserAuthStore"></constructor-arg>-->
+<!--                        </bean>-->
+<!--                    </property>-->
+<!--                    <property name="queryEntities">-->
+<!--                        <list>-->
+<!--                            <bean class="org.apache.ignite.cache.QueryEntity">-->
+<!--                                <property name="keyType" value="com.server.ignite.model.UserAuthKey"></property>-->
+<!--                                <property name="valueType" value="com.server.ignite.model.User"></property>-->
+<!--                                <property name="fields">-->
+<!--                                    <map>-->
+<!--                                        <entry key="id" value="java.lang.String"></entry>-->
+<!--                                        <entry key="sId" value="java.lang.Long"></entry>-->
+<!--                                        <entry key="site" value="java.lang.Integer"></entry>-->
+<!--                                    </map>-->
+<!--                                </property>-->
+<!--                            </bean>-->
+<!--                        </list>-->
+<!--                    </property>-->
+<!--                </bean>-->
+            </list>
+        </property>
+
+        <property name="peerClassLoadingEnabled" value="true"></property>
+        <property name="discoverySpi">
+            <bean class="org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi">
+                <property name="joinTimeout" value="200"/>  <!-- 服务端不存就立刻退出-->
+
+                <property name="ipFinder">
+
+                    <bean class="org.apache.ignite.spi.discovery.tcp.ipfinder.multicast.TcpDiscoveryMulticastIpFinder">
+                        <property name="addresses">
+                            <list>
+                                <value>127.0.0.1:47500</value>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+
+    </bean>
+</beans>

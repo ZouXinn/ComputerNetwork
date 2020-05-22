@@ -86,7 +86,7 @@ public class IgniteHandler {
     public static boolean hasAuth(String id,long service){
         UserAuthKey key = new UserAuthKey(id,service);
         User_Auth user_auth = authCache.get(key);
-        if(user_auth != null && user_auth.getSite() == 1){
+        if(user_auth != null && user_auth.getSite() == 2){
             return true;
         }
         return false;
