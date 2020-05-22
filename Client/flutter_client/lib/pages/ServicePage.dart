@@ -95,7 +95,7 @@ class _ServiceState extends State<ServicePage>{
                                   string = "您没有该服务的权限";
                                   break;
                                 case 3:
-                                  string = "JWT意外损坏，请重新登录";
+                                  string = "JWT意外损坏，请重试";
                                   setState(() {
                                     Global.logout();
                                   });

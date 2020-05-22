@@ -1,9 +1,7 @@
 package com.server.utils.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
+
 import java.util.Date;
 
 public class JwtTool {
@@ -33,19 +31,18 @@ public class JwtTool {
     }
 
     public static JwtVerifyResult verifyJwt(String jwt){
-        Claims cliams = Jwts.parser().setSigningKey(pk).parseClaimsJws(jwt).getBody();
         try{
+            Claims cliams = Jwts.parser().setSigningKey(pk).parseClaimsJws(jwt).getBody();
             String id = cliams.getSubject();
-            Date expDate = cliams.getExpiration();
-            long exp = expDate.getTime();
-            long now = System.currentTimeMillis();
-            boolean valid = (exp >= now);
-            if(valid){
-                return new JwtVerifyResult(true,id);
-            }else{
-                return new JwtVerifyResult(false,id, JwtVerifyResult.InValidReason.TimeOut);
-            }
-        }catch (Exception e){
+            return new JwtVerifyResult(true,id);
+        }
+        catch(SignatureException e){
+            return new JwtVerifyResult(false,"",JwtVerifyResult.InValidReason.Destroyed);
+        }
+        catch(ExpiredJwtException e){
+            return new JwtVerifyResult(false,"", JwtVerifyResult.InValidReason.TimeOut);
+        }
+        catch (Exception e){
             return new JwtVerifyResult(false,"",JwtVerifyResult.InValidReason.Destroyed);
         }
     }

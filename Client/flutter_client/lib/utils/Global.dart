@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 class Global{
   // 记得将ip替换
   static const String url1 = "http://192.168.1.5:8080";
-  static const String url2 = "http://127.0.0.1:8081";
+  //static const String url1 = "http://127.0.0.1:8080";
+  static const String url2 = "http://192.168.1.5:8081";
 
   static bool logined = false;
   static String jwtStr = "";
